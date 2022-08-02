@@ -1,7 +1,7 @@
 <template>
   <div id="game">
     <section id="monster" class="wrapper surface-card">
-      <h2>Monster Health</h2>
+      <h2>Panic Monster's Health</h2>
       <div class="healthbar">
         <div class="healthbar__value" :style="monsterBarStyles"></div>
       </div>
