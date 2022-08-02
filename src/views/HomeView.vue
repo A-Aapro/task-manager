@@ -1,3 +1,3 @@
 <template>
-  <div class="flex justify-content-center align-content-center"></div>
+  <div class="flex justify-content-start"></div>
 </template>

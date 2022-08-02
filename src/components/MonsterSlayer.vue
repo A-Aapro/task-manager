@@ -43,7 +43,7 @@
       />
     </section>
     <section id="log" class="wrapper surface-card">
-      <h2>Battle Log</h2>
+      <h2 class="my-3">Battle Log</h2>
       <ul>
         <li v-for="logMessage in logMessages" :key="logMessage">
           <span
@@ -200,8 +200,7 @@ section {
   border-radius: 5px;
 }
 
-#monster h2,
-#player h2 {
+h2 {
   margin: 0.25rem;
   font-size: medium;
 }

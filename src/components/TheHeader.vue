@@ -2,7 +2,10 @@
   <div
     class="flex flex-wrap px-4 py-2 mb-3 surface-ground justify-content-between"
   >
-    <h1 class="text-center text-700">Task Manager</h1>
+    <div class="flex flex-wrap">
+      <img src="../assets/monster.png" alt="Monster" width="50" />
+      <h1 class="text-center text-700">Task Manager</h1>
+    </div>
     <!-- SUBMIT FORM -->
     <div v-if="!loggedIn">
       <div class="flex flex-wrap mt-3">
