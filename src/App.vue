@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <the-header :key="refresh" :logged-out="loggedOut"></the-header>
+  <div class="col-12 h-screen">
+    <router-view @log-out="logOut"></router-view>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheHeader from "./components/TheHeader.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    TheHeader,
+  },
+  data() {
+    return {
+      loggedOut: false,
+      refresh: 0,
+    };
+  },
+  methods: {
+    logOut(newVal) {
+      this.loggedOut = newVal;
+      this.refresh++;
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+* {
+  box-sizing: inherit;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  background-color: var(--surface-ground);
+}
+.routerlink {
+  color: white;
+  font-size: 14px;
+}
+.p-card-body .p-card-content {
+  padding: 2px;
 }
 </style>
