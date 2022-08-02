@@ -1,5 +1,8 @@
 <template>
   <div id="game">
+    <section class="text-center mb-6">
+      <h1>Slay the Panic Monster!</h1>
+    </section>
     <section id="monster" class="wrapper surface-card">
       <h2>Panic Monster's Health</h2>
       <div class="healthbar">

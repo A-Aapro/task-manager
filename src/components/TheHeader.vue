@@ -4,7 +4,7 @@
   >
     <div class="flex flex-wrap">
       <img src="../assets/monster.png" alt="Monster" width="50" />
-      <h1 class="text-center text-700">Task Manager</h1>
+      <h1 class="text-center text-700">Task Slayer</h1>
     </div>
     <!-- SUBMIT FORM -->
     <div v-if="!loggedIn">
@@ -172,10 +172,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      signInUser: "user/signInUser",
-      createUserAuth: "register/createUserAuth",
-    }),
+    ...mapActions("user", ["signInUser"]),
+    ...mapActions("register", ["createUserAuth"]),
+
     async submitUser() {
       try {
         const response = await this.signInUser({
@@ -184,7 +183,6 @@ export default {
         });
         if (response.message) {
           this.userIsValid = false;
-          console.log(response.message);
           return;
         }
 
@@ -192,6 +190,7 @@ export default {
         this.password = "";
         this.email = "";
         this.loggedIn = "true";
+        this.$store.dispatch("user/getUsers");
       } catch (e) {
         console.log("Virhe", e);
         this.userIsValid = false;
@@ -220,8 +219,8 @@ export default {
           password: this.signUpPassword,
         });
 
-        if (response.message) {
-          console.log(response.message);
+        if (response) {
+          console.log(response);
           this.signUpIsValid = false;
           this.errorInReg = true;
           return;

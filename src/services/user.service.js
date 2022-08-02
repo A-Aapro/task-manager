@@ -58,8 +58,8 @@ async function getAllUsers(idToken) {
         method: "GET",
       }
     );
-
     const responseData = await response.json();
+
     return responseData;
   } catch (e) {
     return e;

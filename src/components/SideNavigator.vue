@@ -13,7 +13,7 @@
             :style="styleAvatar(user.userId)"
             shape="circle"
           />
-          <span>{{ user.firstname }} {{ user.lastname }}</span>
+          <span>{{ user.firstname }}</span>
         </template>
         <div class="cursor-pointer" @click="loggingOut">
           <i class="pi pi-sign-out ml-2"></i>
@@ -37,7 +37,7 @@
         </template>
         <div>
           <ul
-            v-for="users in users"
+            v-for="users in this.users"
             :key="users.id"
             :to="users.firstname"
             class="no-underline pl-0"
@@ -68,6 +68,7 @@ export default {
     AccordionTab,
   },
   emits: ["toggleGame", "logOut"],
+
   computed: {
     user() {
       return this.$store.getters["user/getUser"];
@@ -127,7 +128,7 @@ div {
 
 .p-avatar {
   font-size: 16px;
-  width: 2rem;
-  height: 2rem;
+  width: 35px;
+  height: 35px;
 }
 </style>

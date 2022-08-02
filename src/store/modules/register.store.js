@@ -2,9 +2,9 @@ const getDefaultState = () => {
   return {
     loginUser: {},
     userData: [],
-    token: null,
-    userId: null,
-    expiresIn: null,
+    token: "",
+    userId: "",
+    expiresIn: "",
   };
 };
 
@@ -45,7 +45,7 @@ const actions = {
       const data = await response.json();
 
       if (data.error) {
-        throw new Error("Rekisteröinti epäonnistui");
+        throw new Error(data.error.message);
       }
       commit("setUserAuth", {
         token: data.idToken,
@@ -62,7 +62,7 @@ const actions = {
       return new Error(e.message);
     }
   },
-  async registerUser(payload) {
+  async registerUser(context, payload) {
     const userId = payload.userId;
     try {
       const response = await fetch(
@@ -81,6 +81,7 @@ const actions = {
         throw new Error(response.error);
       }
     } catch (e) {
+      console.log(e);
       return e;
     }
   },

@@ -138,10 +138,10 @@ export default {
   data() {
     return {
       users: [],
-      title: null,
-      areaValue: null,
-      tag: null,
-      dueDate: null,
+      title: "",
+      areaValue: "",
+      tag: "",
+      dueDate: "",
       selectedUsers: [],
       userList: [],
     };
@@ -169,7 +169,10 @@ export default {
   methods: {
     ...mapActions("task", ["addTask"]),
     toggle(event) {
-      this.$refs.op.toggle(event);
+      this.title = "";
+      this.areaValue = "";
+      this.selectedUsers = [];
+      (this.dueData = ""), this.$refs.op.toggle(event);
     },
     checkForm() {
       if (this.title && this.areaValue && this.tag && this.dueDate) {

@@ -59,7 +59,7 @@ const getters = {
 };
 
 const actions = {
-  async signInUser({ commit, dispatch }, userData) {
+  async signInUser({ commit }, userData) {
     try {
       const response = await userService.userAuth(userData);
 
@@ -74,13 +74,11 @@ const actions = {
       const user = await userService.getUserData(data.localId, data.idToken);
 
       commit("setUser", user);
-      dispatch("getUsers");
       localStorage.clear();
       localStorage.setItem("user", JSON.stringify(user));
     } catch (e) {
       return new Error(e.message);
     }
-    router.replace("/UserView");
     return true;
   },
   async getUsers({ commit, getters }) {
@@ -88,6 +86,7 @@ const actions = {
       const response = await userService.getAllUsers(getters.getIdToken);
       const users = await response;
       commit("setUsers", users);
+      router.replace("/UserView");
     } catch (e) {
       return e.message;
     }
