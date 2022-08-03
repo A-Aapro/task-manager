@@ -184,7 +184,7 @@ export default {
   },
   methods: {
     toggle() {
-      this.this.$emit("hidePanel");
+      this.$emit("hidePanel");
     },
     checkForm() {
       if (this.title && this.areaValue && this.tag && this.dueDate) {

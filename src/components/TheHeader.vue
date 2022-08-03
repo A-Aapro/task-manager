@@ -220,7 +220,6 @@ export default {
         });
 
         if (response) {
-          console.log(response);
           this.signUpIsValid = false;
           this.errorInReg = true;
           return;

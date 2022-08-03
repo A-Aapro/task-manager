@@ -13,6 +13,9 @@ export default {
   components: {
     TheHeader,
   },
+  created() {
+    localStorage.clear();
+  },
   data() {
     return {
       loggedOut: false,

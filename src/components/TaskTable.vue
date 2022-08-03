@@ -160,6 +160,7 @@ a {
   .p-datatable {
     width: 80vw;
     margin: auto;
+    padding: 0;
   }
   .list-content {
     padding-left: 5px;
@@ -183,8 +184,8 @@ a {
     width: 1.3rem;
     height: 1.3rem;
   }
-  .p-datatable .p-datatable-tbody > tr > td {
-    padding: 5px 5px;
+  ::v-deep(td) {
+    padding: 5px 10px !important;
   }
 }
 </style>

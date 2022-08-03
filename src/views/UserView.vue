@@ -65,7 +65,6 @@ export default {
   },
   emits: ["logOut"],
   mounted() {
-    this.$store.dispatch("user/getUsers");
     const payload = {
       idToken: this.$store.getters["user/getIdToken"],
       userId: this.$store.getters["user/getUserId"],

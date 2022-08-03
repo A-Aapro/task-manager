@@ -2,6 +2,8 @@ export const userService = {
   userAuth,
   getUserData,
   getAllUsers,
+  deleteAccount,
+  deleteAuth,
 };
 
 async function userAuth(userData) {
@@ -63,5 +65,44 @@ async function getAllUsers(idToken) {
     return responseData;
   } catch (e) {
     return e;
+  }
+}
+
+async function deleteAccount(payload) {
+  try {
+    const response = await fetch(
+      "https://kuuki-task-manager-default-rtdb.europe-west1.firebasedatabase.app/users/" +
+        payload.userId +
+        ".json?auth=" +
+        payload.idToken,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Jotain meni vikaan");
+    }
+    return response;
+  } catch (e) {
+    return new Error(e.message);
+  }
+}
+async function deleteAuth(payload) {
+  try {
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:delete?key=" +
+        process.env.VUE_APP_AUTH_KEY,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ idToken: payload }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Jotain meni vikaan");
+    }
+    return response;
+  } catch (e) {
+    return new Error(e.message);
   }
 }

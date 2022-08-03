@@ -32,6 +32,7 @@ const mutations = {
     state.user = payload;
   },
   clearAll(state) {
+    localStorage.clear();
     state.user = {};
     state.users = [];
     state.localId = "";
@@ -86,13 +87,27 @@ const actions = {
       const response = await userService.getAllUsers(getters.getIdToken);
       const users = await response;
       commit("setUsers", users);
-      router.replace("/UserView");
+      router.replace("UserView");
     } catch (e) {
       return e.message;
     }
   },
   logOutUser({ commit }) {
     commit("clearAll");
+  },
+  async deleteAccount({ getters }) {
+    const payload = { userId: getters.getUserId, idToken: getters.getIdToken };
+    try {
+      const response = await userService.deleteAccount(payload);
+      const deleteAuth = await userService.deleteAuth(payload.idToken);
+
+      if (!response.ok || !deleteAuth.ok) {
+        throw new Error("Tilin poisto epäonnistui");
+      }
+      return;
+    } catch (e) {
+      return new Error(e.message);
+    }
   },
 };
 

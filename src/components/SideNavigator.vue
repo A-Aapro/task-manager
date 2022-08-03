@@ -1,35 +1,24 @@
 <template>
+  <my-toast position="top-left" />
+  <teleport to="body">
+    <confirm-dialog />
+  </teleport>
   <div
     class="block col-12 lg:col-2 mt-3 lg:ml-3 lg:h-full border-round"
     id="nav"
   >
+    <div class="surface-card w-12 py-2 mb-3 border-round">
+      <my-avatar
+        :label="userInitials(user)"
+        class="ml-3 p-3"
+        size="small"
+        :style="styleAvatar(user.userId)"
+        shape="circle"
+      />
+      <span class="ml-3 text-white font-bold">{{ user.firstname }}</span>
+    </div>
+    <panel-menu :model="items" class="w-12" />
     <my-accordion>
-      <accordion-tab>
-        <template #header>
-          <my-avatar
-            :label="user.firstname.charAt(0)"
-            class="mr-2 py-0"
-            size="small"
-            :style="styleAvatar(user.userId)"
-            shape="circle"
-          />
-          <span>{{ user.firstname }}</span>
-        </template>
-        <div class="cursor-pointer" @click="loggingOut">
-          <i class="pi pi-sign-out ml-2"></i>
-          <span class="ml-3">Kirjaudu ulos</span>
-        </div>
-      </accordion-tab>
-      <accordion-tab>
-        <template #header>
-          <i class="pi pi-heart ml-2"></i>
-          <span class="ml-3">Slay-A-Monster</span>
-        </template>
-        <div class="cursor-pointer" @click="$emit('toggleGame')">
-          <i class="pi pi-heart-fill ml-2"></i>
-          <span class="ml-3">Pelaa</span>
-        </div>
-      </accordion-tab>
       <accordion-tab>
         <template #header>
           <i class="pi pi-user ml-2"></i>
@@ -43,13 +32,17 @@
             class="no-underline pl-0"
           >
             <li class="list-none pl-0">
-              <my-avatar
-                :label="users.firstname.charAt(0)"
-                class="mb-1 mr-2"
-                size="small"
-                :style="styleAvatar(users.userId)"
-                shape="circle"
-              />{{ users.firstname }} {{ users.lastname }}
+              <div>
+                <a class="mailto" :href="sendEmail(users.email)"
+                  >.
+                  <my-avatar
+                    :label="users.firstname.charAt(0)"
+                    class="mb-1 mr-2"
+                    size="small"
+                    :style="styleAvatar(users.userId)"
+                    shape="circle" /></a
+                >{{ users.firstname }} {{ users.lastname }}
+              </div>
             </li>
           </ul>
         </div>
@@ -59,13 +52,50 @@
 </template>
 
 <script>
+import PanelMenu from "primevue/panelmenu";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
+import Toast from "primevue/toast";
 
 export default {
   components: {
     "my-accordion": Accordion,
     AccordionTab,
+    PanelMenu,
+    "my-toast": Toast,
+  },
+  data() {
+    return {
+      items: [
+        {
+          label: "Tili",
+          icon: "pi pi-fw pi-user",
+          items: [
+            {
+              label: "Poista tili",
+              icon: "pi pi-fw pi-trash",
+              command: () => {
+                this.deleteAccount();
+              },
+            },
+            {
+              label: "Kirjaudu ulos",
+              icon: "pi pi-fw pi-sign-out",
+              command: () => {
+                this.loggingOut();
+              },
+            },
+          ],
+        },
+        {
+          label: "Slay-a-Monster",
+          icon: "pi pi-fw pi-heart",
+          command: () => {
+            this.$emit("toggleGame");
+          },
+        },
+      ],
+    };
   },
   emits: ["toggleGame", "logOut"],
 
@@ -76,8 +106,17 @@ export default {
     users() {
       return this.$store.getters["user/getUsers"];
     },
+    userName() {
+      return this.$store.getters["user/getFullName"];
+    },
   },
   methods: {
+    userInitials(user) {
+      return user.firstname.charAt(0) + user.lastname.charAt(0);
+    },
+    sendEmail(email) {
+      return "mailto:" + email;
+    },
     styleAvatar(user) {
       //Generoi avatarin taustavärin käyttäjänimestä
       //Koodi googlattu täältä:
@@ -112,10 +151,56 @@ export default {
       return "background-color: " + colorStr + "; " + "color: #ffffff";
     },
     loggingOut() {
-      localStorage.clear();
       this.$store.dispatch("user/logOutUser");
       this.$store.dispatch("task/logOut");
       this.$emit("logOut", true);
+    },
+    async deleteAccount() {
+      this.$confirm.require({
+        message:
+          "Haluatko poistaa tilisi? Poistaminen kadottaa kaikki tehtäväsi ja tietosi.",
+        header: "Poista tili",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-danger",
+        accept: () => {
+          this.confirmedDelete();
+          this.$confirm.close();
+          this.loggingOut();
+        },
+        reject: () => {
+          this.$confirm.close();
+        },
+      });
+    },
+    async confirmedDelete() {
+      try {
+        const response = await this.$store.dispatch("user/deleteAccount");
+        console.log(response);
+        if (response) {
+          throw new Error(response);
+        }
+        this.showSuccess();
+      } catch (e) {
+        this.showWarning();
+        console.log(e);
+      }
+    },
+    showSuccess() {
+      this.$toast.add({
+        severity: "success",
+        summary: "Onnistui!",
+        detail: "Tilisi on nyt poistettu",
+        life: 6000,
+      });
+    },
+    showWarning() {
+      this.$toast.add({
+        severity: "warning",
+        summary: "Jotain meni vikaan",
+        detail:
+          "Tilin poisto epäonnistui. Yritä uudelleen tai ota yhteyttä ylläpitoon.",
+        life: 6000,
+      });
     },
   },
 };
@@ -125,7 +210,12 @@ export default {
 div {
   font-size: 14px;
 }
-
+.p-panelmenu {
+  width: 15vw;
+}
+a {
+  color: transparent;
+}
 .p-avatar {
   font-size: 16px;
   width: 35px;

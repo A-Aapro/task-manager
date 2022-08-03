@@ -18,6 +18,7 @@ import Row from "primevue/row"; //optional for row
 import Avatar from "primevue/avatar";
 import store from "@/store/modules/index.js";
 import Tooltip from "primevue/tooltip";
+import ToastService from "primevue/toastservice";
 
 import "primevue/resources/primevue.css"; // core css
 import "primeicons/primeicons.css"; // icons
@@ -32,6 +33,7 @@ app.use(PrimeVue, { ripple: true });
 app.use(PrimeFlex);
 app.use(router);
 app.use(ConfirmationService);
+app.use(ToastService);
 app.component("my-button", Button);
 app.component("my-input", InputText);
 app.component("task-card", TaskCard);

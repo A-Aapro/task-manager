@@ -33,6 +33,9 @@ const router = createRouter({
 router.beforeResolve((to, from, next) => {
   if (to.meta.authRequired && !localStorage.getItem("user")) {
     return next("/");
+  } else if (to === from && localStorage.getItem("user")) {
+    localStorage.clear();
+    return next("/");
   } else {
     return next();
   }
