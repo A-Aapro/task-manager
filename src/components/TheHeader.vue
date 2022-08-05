@@ -199,10 +199,11 @@ export default {
     async signupUser() {
       this.signUpIsValid = true;
       this.errorInReg = false;
-      if (
-        (this.firstName || this.lastName || this.signUpEmail) === "" ||
-        this.signUpPassword.length < 6
-      ) {
+      if (this.firstName === "" || this.lastName === "") {
+        this.signUpIsValid = false;
+        return;
+      }
+      if (this.signUpEmail === "" || this.signUpPassword.length < 6) {
         this.signUpIsValid = false;
         return;
       }
