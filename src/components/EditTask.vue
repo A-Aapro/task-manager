@@ -22,7 +22,6 @@
           rows="5"
           cols="30"
           maxlength="500"
-          :required="!areaValue"
         />
         <div class="w-full flex flex-row flex-wrap mt-3">
           <div class="flex" v-for="user in users" :key="user">
@@ -132,14 +131,14 @@ export default {
   },
   data() {
     return {
-      taskId: null,
-      title: null,
-      areaValue: null,
-      tag: null,
-      userDate: null,
-      dueDate: null,
+      taskId: "",
+      title: "",
+      areaValue: "",
+      tag: "",
+      userDate: "",
+      dueDate: "",
       selectedUsers: [],
-      users: null,
+      users: [],
       userList: [],
     };
   },
@@ -187,7 +186,7 @@ export default {
       this.$emit("hidePanel");
     },
     checkForm() {
-      if (this.title && this.areaValue && this.tag && this.dueDate) {
+      if (this.title && this.tag && this.dueDate) {
         return true;
       }
     },

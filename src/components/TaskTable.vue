@@ -97,8 +97,8 @@ export default {
         const l = normalizeHash(hash, lRange[0], lRange[1]);
         return [h, s, l];
       };
-
-      let hsl = hslColor(user);
+      let userStr = user || "2149879615";
+      let hsl = hslColor(userStr);
       let colorStr = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
       return "background-color: " + colorStr + "; " + "color: #ffffff";
     },

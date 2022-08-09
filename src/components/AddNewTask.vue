@@ -33,7 +33,6 @@
             cols="30"
             maxlength="500"
             placeholder="Lisää kuvaus"
-            :required="!areaValue"
           />
           <multi-select
             class="mb-1"
@@ -90,12 +89,12 @@
           <div>
             <my-calendar
               id="dateformat"
-              :required="!dueDate"
               :minDate="minDateValue"
               :showIcon="true"
               v-model="dueDate"
               dateFormat="dd.mm.yy"
               placeholder="Määräaika"
+              :required="!dueDate"
             />
           </div>
           <div class="flex flex-wrap justify-content-between">
@@ -175,7 +174,7 @@ export default {
       (this.dueData = ""), this.$refs.op.toggle(event);
     },
     checkForm() {
-      if (this.title && this.areaValue && this.tag && this.dueDate) {
+      if (this.title && this.tag && this.dueDate) {
         return true;
       }
     },
