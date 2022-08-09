@@ -221,7 +221,7 @@ export default {
     },
     removeTask(id, tag) {
       this.$confirm.require({
-        message: "Poista tehtävä listaltani.",
+        message: "Haluatko poistaa tehtävän?",
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         accept: () => {
